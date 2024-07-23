@@ -32,17 +32,24 @@ const ToDo = () => {
       const response = await axios.post('https://jsonplaceholder.typicode.com/todos', { title: task.title, completed: false, userId: 1 });
       const newTask = response.data;
 
-      // Assuming the API returns the created task object
-      setTasks([newTask, ...tasks]); // Add new task to the front
+      setTasks([newTask, ...tasks]); 
       setTask({});
     } catch (error) {
       console.error('Error adding task:', error);
     }
   };
 
-  const handleDeleteTask = (index) => {
-    const newTasks = tasks.filter((_, i) => i !== index);
-    setTasks(newTasks);
+  const handleDeleteTask = async(taskId) => {
+    // console.log(taskId)
+    // const newTasks = tasks.filter((_, i) => i !== index);
+
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/todos/${taskId}`);
+      const newTasks = tasks.filter((task) => task.id !== taskId)
+      setTasks(newTasks);
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -66,7 +73,7 @@ const ToDo = () => {
         <List sx={{ marginTop: 2 }}>
           {tasks.map((task, index) => (
             <ListItem key={index} secondaryAction={
-              <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTask(index)}>
+              <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTask(task.id)}>
                 <DeleteIcon />
               </IconButton>
             } >
