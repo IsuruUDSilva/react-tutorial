@@ -5,8 +5,7 @@ import axios from 'axios';
 
 const ToDo = () => {
   const [tasks, setTasks] = useState([]);
-  const [cc, setcc] = useState([])
-  const [task, setTask] = useState();
+  const [task, setTask] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
@@ -24,10 +23,20 @@ const ToDo = () => {
     fetchData();
   },[])
 
-  const handleAddTask = () => {
-    if (task.trim()) {
-      setTasks([...tasks, task]);
-      setTask('');
+  useEffect(()=> {
+    console.log(tasks);
+  }, [tasks])
+
+  const handleAddTask = async() => {
+    try {
+      const response = await axios.post('https://jsonplaceholder.typicode.com/todos', { title: task.title, completed: false, userId: 1 });
+      const newTask = response.data;
+
+      // Assuming the API returns the created task object
+      setTasks([newTask, ...tasks]); // Add new task to the front
+      setTask({});
+    } catch (error) {
+      console.error('Error adding task:', error);
     }
   };
 
@@ -45,21 +54,12 @@ const ToDo = () => {
       <TextField
         variant="outlined"
         label="Task title"
-        sx={{ width: '80vw' }}
+        sx={{ width: '90vw' }}
         size='small'
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
+        value={task.title? task.title : ''}
+        onChange={(e) => setTask({...task , title: e.target.value})}
       />
-      <TextField
-        variant="outlined"
-        label="Task Description"
-        sx={{ width: '80vw' }}
-        size='small'
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && handleAddTask()}
-      />
-      <Button variant="contained" color="primary" onClick={handleAddTask} sx={{ paddingBottom: '9px', marginLeft: '5px' }}>
+      <Button variant="contained" color="primary" onClick={handleAddTask} sx={{ paddingBottom: '9px', marginTop: '5px' }}>
         Add Task
       </Button>
       <Box overflow='auto' maxHeight='70vh'>
@@ -70,7 +70,7 @@ const ToDo = () => {
                 <DeleteIcon />
               </IconButton>
             } >
-              <ListItemText primary={task.title} secondary={task.body} />
+              <ListItemText primary={task.title} />
             </ListItem>
           ))}
         </List>
