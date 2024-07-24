@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from '../../../validation';
 import axios from 'axios';
 import { loginErrors } from '../../../validation/signupValidations';
+import logo from '../../../assets/todoAppImg.jpg'
 
 const theme = createTheme();
 
@@ -60,21 +61,19 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs" sx={{ borderRadius: 8, border: '2px solid #000', boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.5)', marginTop: '50px'}} >
+      <Container component="main" maxWidth="xs" sx={{ borderRadius: 2, boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.5)', marginTop: '50px'}} >
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 20,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar alt='todo app' src={logo} sx={{ width: 56, height: 56 , marginTop: 5}} />
           <Typography component="h1" variant="h5">
-            Sign in
+            Login To Your Account
           </Typography>
           {errors.email &&
                 <label>{errors.email}</label>
@@ -115,7 +114,8 @@ const Login = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 , background: '#D6EFD8', color: '#1A5319', ":hover": {background: '#1A5319', color:'#D6EFD8'}}}
+              disabled={!email || !password}
+              sx={{ mt: 3, mb: 2 ,":hover": {background: '#404258', color:'#D6EFD8'}}}
             >
               Sign In
             </Button>

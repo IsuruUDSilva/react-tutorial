@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TextField, Button, List, ListItem, ListItemText, IconButton,  Box, Grid, Container } from '@mui/material';
+import { TextField, Button, List, ListItem, ListItemText, IconButton,  Box, Grid, Checkbox, Input } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import Popup from '../../components/todoAppPopup';
@@ -82,11 +82,13 @@ const ToDo = () => {
       <Button variant="contained" onClick={handleClickOpen}>
         Add Task
       </Button>
+      <hr />
       <Popup open={open} onClose={handleClose} onSubmit={handleAddTask} title='Add Task'/>
       <Box overflow='auto' maxHeight='80vh'>
-        <List sx={{ marginTop: 2 }}>
+        <List>
           {tasks.map((task, index) => (
             <ListItem key={index} sx={{ borderBottom: '1px solid #e0e0e0' }}>
+              <Checkbox value={task.completed}/>
               <ListItemText primary={task.title} />
               <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTask(task.id)}>
                 <DeleteIcon />

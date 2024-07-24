@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, Toolbar, Typography, Box, IconButton, Grid } from '@mui/material';
+import { Drawer, List, ListItem, ListItemText, ListItemIcon, Toolbar, Typography, Box, IconButton, Grid, Avatar } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MenuIcon from '@mui/icons-material/Menu'
 import AppBar from '@mui/material/AppBar';
 import { Outlet, Link } from 'react-router-dom';
+import img from '../../assets/todoAppImg.jpg'
 
 const drawerWidth = 240;
 
@@ -20,7 +21,7 @@ const NavBar = () => {
 
   return (
       <Box> 
-          <AppBar position="fixed" sx={{ width: openDrawer? `calc(100% - ${drawerWidth}px)` : '100%' , background: '#96C9F4'}}>
+          <AppBar position="fixed" sx={{ width: openDrawer? `calc(100% - ${drawerWidth}px)` : '100%' , background: '#f0f0f0'}}>
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -31,6 +32,7 @@ const NavBar = () => {
               >
                 <MenuIcon />
               </IconButton>
+              {!openDrawer && <Avatar alt='todo app' src={img} sx={{ width: 56, height: 56 }} />}
               <Typography variant="h6" noWrap component="div" sx={{color:'#0F67B1'}}>
                 To Do App
               </Typography>
@@ -44,7 +46,7 @@ const NavBar = () => {
             '& .MuiDrawer-paper': {
               width: drawerWidth,
               boxSizing: 'border-box',
-              background: '#3FA2F6',
+              background: '#F1EAFF',
             },
           }}
           variant="temporary"
@@ -54,28 +56,29 @@ const NavBar = () => {
         >
         
           <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 , color:'#D6EFD8'}}>
-              MyApp
+          <Avatar alt='todo app' src={img} sx={{ width: 56, height: 56 }} />
+            <Typography variant="h6" sx={{ flexGrow: 1 , color:'#404258', paddingLeft: '5px'}}>
+              My ToDo App
             </Typography>
           </Toolbar>
           <List>
             <ListItem button component={Link} to="/home" sx={{}}>
               <ListItemIcon>
-                <HomeIcon sx={{color:'#D6EFD8'}}/>
+                <HomeIcon sx={{color:'#404258'}}/>
               </ListItemIcon>
-              <ListItemText sx={{color:'#D6EFD8'}} primary="Home" />
+              <ListItemText sx={{color:'#404258'}} primary="Home" />
             </ListItem>
             <ListItem button component={Link} to="about">
               <ListItemIcon>
-                <InfoIcon sx={{color:'#D6EFD8'}}/>
+                <InfoIcon sx={{color:'#404258'}}/>
               </ListItemIcon>
-              <ListItemText sx={{color:'#D6EFD8'}} primary="About" />
+              <ListItemText sx={{color:'#404258'}} primary="About" />
             </ListItem>
             <ListItem button component={Link} to="todo">
               <ListItemIcon>
-                <ListAltIcon sx={{color:'#D6EFD8'}}/>
+                <ListAltIcon sx={{color:'#404258'}}/>
               </ListItemIcon>
-              <ListItemText sx={{color:'#D6EFD8'}} primary="Todo App" />
+              <ListItemText sx={{color:'#404258'}} primary="Todo App" />
             </ListItem>
           </List>
         </Drawer>
