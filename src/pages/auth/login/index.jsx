@@ -3,21 +3,59 @@ import { Container, TextField, Button, Typography, Box, Avatar, CssBaseline } fr
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { validateEmail, validatePassword } from '../../../validation';
+import axios from 'axios';
+import { loginErrors } from '../../../validation/signupValidations';
 
 const theme = createTheme();
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
+    const newErrors = {};
+
+    if (!validateEmail(email)) {
+      newErrors.email = 'Email is in an invalid format';
+    }
+
+    if (!validatePassword(password)) {
+      newErrors.password = 'Password is incorrect';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+      const payloadData = {
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      };
     
-    navigate('/home');
-    console.log('Email:', email);
-    console.log('Password:', password);
+      try {
+        const response = await axios.post(
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDNzvthLu-nQWlFVv1AdV6t315YJ1C7Jfs',
+          payloadData
+        );
+
+        if(response.data.idToken) {  
+          navigate('/home');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        const errorMessage = loginErrors(error.response?.data?.error?.message || 'UNKNOWN_ERROR');
+        setErrors({loginError: errorMessage});
+      }
+      
+    }
+
+    console.log('Errors:', errors);
   };
 
   return (
@@ -38,14 +76,24 @@ const Login = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          {errors.email &&
+                <label>{errors.email}</label>
+          }
+          {errors.password &&
+                <label>{errors.password}</label>
+          }
+          {errors.loginError &&
+                <label>{errors.loginError}</label>
+          }
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Enter Email here"
+              label="Email"
               name="email"
+              type='email'
               autoComplete="email"
               autoFocus
               value={email}

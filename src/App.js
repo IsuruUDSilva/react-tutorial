@@ -9,9 +9,6 @@ import ToDo from "./pages/todo";
 function App() {
   return (
     <Router>
-      {/* <div>
-        {/* <NavBar /> */}
-        {/* <Login/> */}
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} > 
@@ -19,7 +16,6 @@ function App() {
             <Route path="todo" element={<ToDo />} />
           </Route>
         </Routes>
-      {/* </div> */}
     </Router>
   );
 }

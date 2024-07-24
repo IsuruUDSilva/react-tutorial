@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, Toolbar, Typography, Box, IconButton, Grid, Button } from '@mui/material';
+import { Drawer, List, ListItem, ListItemText, ListItemIcon, Toolbar, Typography, Box, IconButton, Grid } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -19,7 +19,7 @@ const NavBar = () => {
   }
 
   return (
-      <Box sx={{ display:'flex'}}> 
+      <Box> 
           <AppBar position="fixed" sx={{ width: openDrawer? `calc(100% - ${drawerWidth}px)` : '100%' , background: '#96C9F4'}}>
             <Toolbar>
               <IconButton
@@ -27,10 +27,11 @@ const NavBar = () => {
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerOpen}
+                sx={{color: '#0F67B1'}}
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" noWrap component="div">
+              <Typography variant="h6" noWrap component="div" sx={{color:'#0F67B1'}}>
                 To Do App
               </Typography>
             </Toolbar>
