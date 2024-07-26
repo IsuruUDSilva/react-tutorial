@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from '@mui/material';
 
-const Popup = ({ open, onClose, onSubmit , title}) => {
+interface PopupProps {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: (value: string) => void;
+  title: string;
+}
+
+const Popup: FC<PopupProps> = ({ open, onClose, onSubmit , title}) => {
   const [value, setValue] = useState('');
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setValue(event.target.value);
   };
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { loginErrors } from "../../validation/signupValidations";
 
-const loginFirebase = async (payload) => {
+const loginFirebase = async (payload: any) => {
   const payloadData = {
     email: payload.email,
     password: payload.password,
@@ -19,7 +19,7 @@ const loginFirebase = async (payload) => {
     return response.data;
   } catch (error) {
     console.error('Login error:', error);
-    const errorMessage = loginErrors(error.response?.data?.error?.message || 'UNKNOWN_ERROR');
+    const errorMessage = loginErrors((error as any).response?.data?.error?.message || 'UNKNOWN_ERROR');
     throw new Error(errorMessage);
   }
 };

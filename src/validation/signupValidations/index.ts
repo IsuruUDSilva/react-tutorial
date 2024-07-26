@@ -1,4 +1,4 @@
-const signupErrors = (error) =>  {
+const signupErrors = (error: string) =>  {
     switch (error) {
     case 'EMAIL_EXISTS':
         return 'Email Already exist.'
@@ -11,7 +11,7 @@ const signupErrors = (error) =>  {
     }
 }
   
-const loginErrors = (error) =>  {
+const loginErrors = (error: string) =>  {
     switch (error) {
     case 'EMAIL_NOT_FOUND':
         return 'Email not found.'

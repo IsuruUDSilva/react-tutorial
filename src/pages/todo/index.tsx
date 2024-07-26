@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { TextField, Button, List, ListItem, ListItemText, IconButton,  Box, Grid, Checkbox, Input } from '@mui/material';
+import { Button, List, ListItem, ListItemText, IconButton,  Box, Grid, Checkbox } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import Popup from '../../components/todoAppPopup';
 
+interface Task {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
 const ToDo = () => {
-  const [tasks, setTasks] = useState([]);
-  const [task, setTask] = useState({});
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
 
@@ -25,19 +31,18 @@ const ToDo = () => {
     fetchData();
   },[])
 
-  const handleAddTask = async(title) => {
+  const handleAddTask = async(title: any) => {
     try {
       const response = await axios.post('https://jsonplaceholder.typicode.com/todos', { title: title, completed: false, userId: 1 });
       const newTask = response.data;
 
       setTasks([newTask, ...tasks]); 
-      setTask({});
     } catch (error) {
       console.error('Error adding task:', error);
     }
   };
 
-  const handleDeleteTask = async(taskId) => {
+  const handleDeleteTask = async(taskId: number) => {
     // console.log(taskId)
     // const newTasks = tasks.filter((_, i) => i !== index);
 

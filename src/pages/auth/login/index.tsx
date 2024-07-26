@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Box, Avatar, CssBaseline } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from '../../../validation';
 import axios from 'axios';
 import { loginErrors } from '../../../validation/signupValidations';
-import logo from '../../../assets/todoAppImg.jpg'
+import logo from '../../../assets/todoAppImg.jpg';
 
-const theme = createTheme();
+interface Errors {
+  email?: string;
+  password?: string;
+  loginError?: string;
+}
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Errors>({});
 
   const navigate = useNavigate();
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async(event: any) => {
     event.preventDefault();
-    const newErrors = {};
+    const newErrors: Errors = {};
 
     if (!validateEmail(email)) {
       newErrors.email = 'Email is in an invalid format';
@@ -48,8 +50,7 @@ const Login = () => {
         if(response.data.idToken) {  
           navigate('/home');
         }
-      } catch (error) {
-        console.error('Login error:', error);
+      } catch (error: any) {
         const errorMessage = loginErrors(error.response?.data?.error?.message || 'UNKNOWN_ERROR');
         setErrors({loginError: errorMessage});
       }
@@ -60,7 +61,6 @@ const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs" sx={{ borderRadius: 2, boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.5)', marginTop: '50px'}} >
         <CssBaseline />
         <Box
@@ -122,7 +122,6 @@ const Login = () => {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 };
 
